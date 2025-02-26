@@ -90,21 +90,21 @@ export default class Card extends React.Component<Props, State> {
                 workoutList.push(
                     (<>
                         {restState &&
-                            <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-100"} ${this.currentActiveItem === restNUmber ? "bg-gray-100" : "bg-amber-100"}`}>
+                            <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-50"} ${this.currentActiveItem === restNUmber ? "bg-gray-100" : "bg-amber-50"}`}>
                                 <div className=" font-normal">
                                     {durState &&
-                                        <ul role="list" className="ml-9">
+                                        <ul role="list" className="ml-9 text-3xl">
                                             {this.createExerciseList(this.props.workout[index])}
                                         </ul>
                                     }
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between text-4xl">
                                         {durState &&
-                                            <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-orange-500" : "bg-red-500"}`}>
+                                            <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-orange-500" : "bg-red-500"}`}>
                                                 <div className="mt-px">{this.calculateTimer(durNumber, this.props.workout[index].dur)}</div>
                                             </div>
                                         }
                                         {restState &&
-                                            <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white ${this.currentActiveItem === restNUmber ? "bg-green-700" : "bg-green-500"}`}>
+                                            <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === restNUmber ? "bg-green-700" : "bg-green-500"}`}>
                                                 <div className="mt-px">{this.calculateTimer(restNUmber, this.props.workout[index].rest)}</div>
                                             </div>
                                         }
