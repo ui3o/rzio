@@ -142,8 +142,8 @@ export default class Card extends React.Component<Props, State> {
             <>
                 <div className="w-[calc(100%)] bg-white p-4 rounded border border-slate-200 shadow" >
                     <div className=" items-center justify-between space-x-2 mb-1">
-                        <div className="font-bold text-slate-900 text-2xl">{round}
-                            <span className="font-normal text-sm">/{this.props.allRound}</span>
+                        <div className="font-bold text-slate-900 text-5xl">{round}
+                            <span className="font-normal text-3xl">/{this.props.allRound}</span>
                             <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                 {this.createWorkOutList()}
                             </ul>
