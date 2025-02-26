@@ -5,7 +5,7 @@ import { Timer } from "../interfaces/timer";
 
 interface Props {
   allRound?: number
-  round?: number
+  round: number
   workout: Array<Workout>
   timer?: Timer;
 }
@@ -18,13 +18,16 @@ const initialState: State = {
   clicks: 0
 };
 
+
 export default class TimeLineItem extends React.Component<Props, State> {
+
   constructor(props: Props) {
     super(props);
     this.state = initialState;
   }
+
   public render(): JSX.Element {
-    let exerciseCounter = ((Number(this.props.round) + 1) * Number(this.props.workout?.length) * 2) - 1;
+    let exerciseCounter = ((this.props.round + 1) * this.props.workout.length * 2) - 2;
     return (
       <>
         {this.props.timer?.workoutIsActiveMap[exerciseCounter] &&

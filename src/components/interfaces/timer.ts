@@ -3,5 +3,6 @@ export interface Timer {
     curTime: number,
     curPos: number,
     workoutTimeMap: Array<number>,
+    workoutTimeRawMap: Array<string>,
     workoutIsActiveMap: Array<boolean>,
 }

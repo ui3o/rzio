@@ -62,13 +62,12 @@ export default class Card extends React.Component<Props, State> {
     }
 
 
-    calculateTimer(index: number, dur: string): string {
+    calculateTimer(dur: string): string {
         const zeroPad = (num: string, places: number) => num.padStart(places, '0');
         dur = dur.replace(".", ":");
         const digits = dur.split(":");
         dur = `${zeroPad(digits[0], 2)}:${zeroPad(digits[1], 2)}`;
-        const curTime = `${zeroPad((this.props.timer.curTime / 60).toString().split(".")[0], 2)}:${zeroPad(String(this.props.timer.curTime % 60), 2)}`
-        return this.currentActiveItem === index ? `${curTime} / ${dur}` : dur;
+        return dur;
     }
 
     calculateGoReadyState(durNumber: number): boolean {
@@ -83,14 +82,11 @@ export default class Card extends React.Component<Props, State> {
             for (let index = 0; index < this.props.workout.length; index++) {
                 const durState = this.props.timer.workoutIsActiveMap[this.exerciseCounter];
                 const durNumber = this.exerciseCounter;
-                this.exerciseCounter++
-                const restState = this.props.timer?.workoutIsActiveMap[this.exerciseCounter];
-                const restNUmber = this.exerciseCounter;
-                this.exerciseCounter++
+                this.exerciseCounter += 2;
                 workoutList.push(
                     (<>
-                        {restState &&
-                            <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-50"} ${this.currentActiveItem === restNUmber ? "bg-gray-100" : "bg-amber-50"}`}>
+                        {durState &&
+                            <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-50"}`}>
                                 <div className=" font-normal">
                                     {durState &&
                                         <ul role="list" className="ml-9 text-3xl">
@@ -99,15 +95,13 @@ export default class Card extends React.Component<Props, State> {
                                     }
                                     <div className="flex justify-between text-4xl">
                                         {durState &&
-                                            <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-red-500" : "bg-orange-300"}`}>
-                                                <div className="mt-px">{this.calculateTimer(durNumber, this.props.workout[index].dur)}</div>
+                                            <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-orange-300`}>
+                                                <div className="mt-px">{this.calculateTimer(this.props.workout[index].dur)}</div>
                                             </div>
                                         }
-                                        {restState &&
-                                            <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === restNUmber ? "bg-green-700" : "bg-green-500"}`}>
-                                                <div className="mt-px">{this.calculateTimer(restNUmber, this.props.workout[index].rest)}</div>
-                                            </div>
-                                        }
+                                        <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-500`}>
+                                            <div className="mt-px">{this.calculateTimer(this.props.workout[index].rest)}</div>
+                                        </div>
                                     </div>
 
                                 </div>

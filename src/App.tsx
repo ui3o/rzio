@@ -20,7 +20,8 @@ const initialState: State = {
     timer: {
         started: false, curPos: 0, curTime: 0,
         workoutIsActiveMap: [],
-        workoutTimeMap: []
+        workoutTimeMap: [],
+        workoutTimeRawMap: []
 
     },
     workout: []
@@ -56,6 +57,7 @@ export default class App extends React.Component<Props, State> {
                         curTime: 0,
                         workoutIsActiveMap: workoutIsActiveMap,
                         workoutTimeMap: this.state.timer.workoutTimeMap,
+                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
                     }, workout: this.state.workout
                 })
 
@@ -69,6 +71,7 @@ export default class App extends React.Component<Props, State> {
                         curTime: 0,
                         workoutIsActiveMap: new Array(this.state.timer.workoutTimeMap.length).fill(true),
                         workoutTimeMap: this.state.timer.workoutTimeMap,
+                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
                     }, workout: this.state.workout
                 })
                 console.log("set stop", this.state.timer.started)
@@ -82,6 +85,7 @@ export default class App extends React.Component<Props, State> {
                         curTime: this.state.timer.curTime,
                         workoutIsActiveMap: new Array(this.state.timer.workoutTimeMap.length).fill(true),
                         workoutTimeMap: this.state.timer.workoutTimeMap,
+                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
                     }, workout: this.state.workout
                 })
                 console.log("set start", this.state.timer.started)
@@ -107,7 +111,7 @@ export default class App extends React.Component<Props, State> {
                             console.log(r.length)
                         });
                         console.log(clipText)
-                        const d = workout.flatMap((w) => {
+                        const workoutTimeMap = workout.flatMap((w) => {
                             return w.flatMap(r => {
                                 return [r.dur, r.rest]
                             })
@@ -115,13 +119,19 @@ export default class App extends React.Component<Props, State> {
                             const timeArray = t.split(".")
                             return Number(timeArray[0]) * 60 + Number(timeArray[1]);
                         })
+                        const workoutTimeRawMap = workout.flatMap((w) => {
+                            return w.flatMap(r => {
+                                return [r.dur, r.rest]
+                            })
+                        });
                         this.setState({
                             workout: workout, timer: {
                                 started: this.state.timer.started,
                                 curPos: this.state.timer.curPos,
                                 curTime: this.state.timer.curTime,
                                 workoutIsActiveMap: this.state.timer.workoutIsActiveMap,
-                                workoutTimeMap: d,
+                                workoutTimeMap: workoutTimeMap,
+                                workoutTimeRawMap: workoutTimeRawMap,
                             }
                         })
                     });
@@ -157,6 +167,7 @@ export default class App extends React.Component<Props, State> {
                         curTime: curTime,
                         workoutIsActiveMap: workoutIsActiveMap,
                         workoutTimeMap: this.state.timer.workoutTimeMap,
+                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
                     }, workout: this.state.workout
                 })
             }
