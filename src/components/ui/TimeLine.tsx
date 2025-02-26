@@ -79,11 +79,11 @@ export default class TimeLine extends React.Component<Props, State> {
 
                 <div className="flex justify-between text-4xl mb-2">
                   {actualTimer % 2 === 0 &&
-                    <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${true ? "bg-red-500" : "bg-orange-300"}`}>
+                    <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500 mr-2`}>
                       <div className="mt-px">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
                     </div>
                   }
-                  <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${true ? "bg-green-700" : "bg-green-500"}`}>
+                  <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${actualTimer % 2 !== 0 ? "bg-green-700" : "bg-green-500"} w-full`}>
                     <div className="mt-px">{this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}</div>
                   </div>
                 </div>
