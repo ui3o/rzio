@@ -21,7 +21,7 @@ const initialState: State = {
 export default class Card extends React.Component<Props, State> {
 
     private exerciseCounter = 0;
-    private currentActiveItem: number | undefined = undefined;
+    private currentActiveItem: number = -1;
 
     constructor(props: Props) {
         super(props);
@@ -71,11 +71,17 @@ export default class Card extends React.Component<Props, State> {
         return this.currentActiveItem === index ? `${curTime} / ${dur}` : dur;
     }
 
+    calculateGoReadyState(durNumber: number): boolean {
+        const currentActiveItem = durNumber - 1 < 0 ? 0 : durNumber - 1;
+        return (!this.props.timer?.workoutIsActiveMap[currentActiveItem - 1] && this.props.timer?.workoutIsActiveMap[currentActiveItem]) ||
+            this.currentActiveItem === durNumber ? true : false;
+    }
+
     createWorkOutList(): JSX.Element {
         if (this.props.workout) {
             const workoutList: Array<JSX.Element> = []
             for (let index = 0; index < this.props.workout.length; index++) {
-                const durState = this.props.timer?.workoutIsActiveMap[this.exerciseCounter];
+                const durState = this.props.timer.workoutIsActiveMap[this.exerciseCounter];
                 const durNumber = this.exerciseCounter;
                 this.exerciseCounter++
                 const restState = this.props.timer?.workoutIsActiveMap[this.exerciseCounter];
@@ -84,7 +90,7 @@ export default class Card extends React.Component<Props, State> {
                 workoutList.push(
                     (<>
                         {restState &&
-                            <li className={`py-3 sm:py-4 ${this.currentActiveItem === durNumber || this.currentActiveItem === restNUmber ? "bg-lime-200" : "bg-amber-100"}`}>
+                            <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-100"} ${this.currentActiveItem === restNUmber ? "bg-gray-100" : "bg-amber-100"}`}>
                                 <div className=" font-normal">
                                     {durState &&
                                         <ul role="list" className="ml-9">
@@ -123,9 +129,9 @@ export default class Card extends React.Component<Props, State> {
     public render(): JSX.Element {
         this.exerciseCounter = Number(this.props.round) * Number(this.props.workout?.length) * 2;
         let exerciseCounter = Number(this.props.round) * Number(this.props.workout?.length) * 2;
-        this.currentActiveItem = undefined;
+        this.currentActiveItem = -1;
         for (let index = 0; index < this.props.workout.length * 2; index++) {
-            if (!this.props.timer?.workoutIsActiveMap[exerciseCounter - 1] && this.props.timer?.workoutIsActiveMap[exerciseCounter] && this.currentActiveItem === undefined) {
+            if (!this.props.timer?.workoutIsActiveMap[exerciseCounter - 1] && this.props.timer?.workoutIsActiveMap[exerciseCounter] && this.currentActiveItem === -1) {
                 this.currentActiveItem = exerciseCounter;
             }
             exerciseCounter++;
