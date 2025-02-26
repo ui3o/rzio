@@ -73,9 +73,9 @@ export default class TimeLine extends React.Component<Props, State> {
     return (
       <>
         <section className=" in-h-screen flex flex-col justify-center bg-slate-50">
-          <div className="flex flex-col justify-center sticky top-0 z-10 pb-2">
+          <div className="flex flex-col justify-center sticky top-0 z-10 backdrop-blur-lg">
             <div className="w-full max-w-3xl mx-auto">
-              <div className="flex justify-between text-4xl mb-2 bg-white ">
+              <div className="flex justify-between text-4xl mb-6 mt-6 ">
                 {actualTimer % 2 === 0 &&
                   <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500 mr-2`}>
                     <div className="mt-px">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
