@@ -39,16 +39,16 @@ export default class Card extends React.Component<Props, State> {
                                 {w.name}
                             </div>
                             <div className="flex">
-                                <div className=" select-none whitespace-nowrap rounded-lg bg-black py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ">
-                                    <div className="">{w.count}</div>
+                                <div className=" w-16 text-center select-none whitespace-nowrap rounded-lg bg-black py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ">
+                                    <span className="">{w.count}</span>
                                 </div>
                                 {w.weight &&
                                     <>
                                         <div className=" select-none whitespace-nowrap  py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none">
                                             <div className="">x</div>
                                         </div>
-                                        <div className=" select-none whitespace-nowrap rounded-lg bg-blue-900 py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white">
-                                            <div className="">{w.weight}</div>
+                                        <div className="w-16 text-center select-none whitespace-nowrap rounded-lg bg-blue-900 py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white">
+                                            <span className="">{w.weight}</span>
                                         </div>
                                     </>
                                 }
