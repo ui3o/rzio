@@ -1,6 +1,5 @@
 import React from "react";
 import { Workout } from "../interfaces/workout";
-import TimeLineItem from "./TimeLineItem";
 
 interface Props {
   workout?: Array<Array<Workout>>

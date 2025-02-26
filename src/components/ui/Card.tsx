@@ -44,10 +44,10 @@ export default class Card extends React.Component<Props, State> {
                                 </div>
                                 {w.weight &&
                                     <>
-                                        <div className=" select-none whitespace-nowrap  py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none  mr-2">
+                                        <div className=" select-none whitespace-nowrap  py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none">
                                             <div className="">x</div>
                                         </div>
-                                        <div className=" select-none whitespace-nowrap rounded-lg bg-blue-900 py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white mr-2">
+                                        <div className=" select-none whitespace-nowrap rounded-lg bg-blue-900 py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white">
                                             <div className="">{w.weight}</div>
                                         </div>
                                     </>
