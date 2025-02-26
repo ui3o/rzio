@@ -25,7 +25,6 @@ export default class TimeLine extends React.Component<Props, State> {
   }
 
   componentDidUpdate(_prevProps: Props, _prevState: State): void {
-    console.log("componentDidUpdate")
   }
 
   createTimeLine(): JSX.Element {

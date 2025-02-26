@@ -6,7 +6,7 @@ interface Props {
     allRound?: number
     round?: number
     workout: Array<Workout>
-    timer?: Timer;
+    timer: Timer;
 
 }
 
@@ -63,7 +63,12 @@ export default class Card extends React.Component<Props, State> {
 
 
     calculateTimer(index: number, dur: string): string {
-        return this.currentActiveItem === index ? `${this.props.timer?.curTime} / ${dur}` : dur;
+        const zeroPad = (num: string, places: number) => num.padStart(places, '0');
+        dur = dur.replace(".", ":");
+        const digits = dur.split(":");
+        dur = `${zeroPad(digits[0], 2)}:${zeroPad(digits[1], 2)}`;
+        const curTime = `${zeroPad((this.props.timer.curTime / 60).toString().split(".")[0], 2)}:${zeroPad(String(this.props.timer.curTime % 60), 2)}`
+        return this.currentActiveItem === index ? `${curTime} / ${dur}` : dur;
     }
 
     createWorkOutList(): JSX.Element {
@@ -79,7 +84,7 @@ export default class Card extends React.Component<Props, State> {
                 workoutList.push(
                     (<>
                         {restState &&
-                            <li className="py-3 sm:py-4 bg-amber-100">
+                            <li className={`py-3 sm:py-4 ${this.currentActiveItem === durNumber || this.currentActiveItem === restNUmber ? "bg-lime-200" : "bg-amber-100"}`}>
                                 <div className=" font-normal">
                                     {durState &&
                                         <ul role="list" className="ml-9">
@@ -88,12 +93,12 @@ export default class Card extends React.Component<Props, State> {
                                     }
                                     <div className="flex justify-between">
                                         {durState &&
-                                            <div className="center min-w-9/12 select-none whitespace-nowrap rounded-lg bg-red-500 py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white">
+                                            <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-orange-500" : "bg-red-500"}`}>
                                                 <div className="mt-px">{this.calculateTimer(durNumber, this.props.workout[index].dur)}</div>
                                             </div>
                                         }
                                         {restState &&
-                                            <div className="center min-w-2/12 select-none whitespace-nowrap rounded-lg bg-green-500 py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white">
+                                            <div className={`center min-w-2/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans text-4xl font-bold uppercase leading-none text-white ${this.currentActiveItem === restNUmber ? "bg-green-700" : "bg-green-500"}`}>
                                                 <div className="mt-px">{this.calculateTimer(restNUmber, this.props.workout[index].rest)}</div>
                                             </div>
                                         }

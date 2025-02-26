@@ -21,7 +21,6 @@ export default class Gong extends React.Component<Props, State> {
   }
 
   componentDidUpdate(_prevProps: Props, _prevState: State): void {
-    console.log("componentDidUpdate")
   }
 
   public render(): JSX.Element {

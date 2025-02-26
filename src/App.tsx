@@ -159,8 +159,6 @@ export default class App extends React.Component<Props, State> {
                         workoutTimeMap: this.state.timer.workoutTimeMap,
                     }, workout: this.state.workout
                 })
-            } else {
-                console.log("timer stopped")
             }
 
         }, 1000)
