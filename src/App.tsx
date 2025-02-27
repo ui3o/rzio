@@ -45,7 +45,7 @@ export default class App extends React.Component<Props, State> {
                 (document.getElementsByClassName("my_audio")[0] as any).play();
 
             }
-            else if (event.key === "Backspace" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
+            else if (event.key === "Enter" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
                 keyboardEventTimestamp = event.timeStamp | 0;
                 (document.getElementsByClassName("my_audio")[0] as any).play();
 
@@ -81,7 +81,7 @@ export default class App extends React.Component<Props, State> {
                 })
                 console.log("set stop", this.state.timer.started)
             }
-            else if (event.key === "Enter" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
+            else if (event.key === "Backspace" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
                 keyboardEventTimestamp = event.timeStamp | 0;
                 this.startWorkout();
             }
