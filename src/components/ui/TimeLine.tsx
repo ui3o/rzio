@@ -73,7 +73,7 @@ export default class TimeLine extends React.Component<Props, State> {
     return (
       <>
         <section className=" in-h-screen flex flex-col justify-center bg-slate-50">
-          <div className="flex flex-col justify-center sticky top-0 z-10 backdrop-blur-lg">
+          <div className="flex flex-col justify-center sticky top-0 z-10 bg-slate-50">
             <div className="w-full max-w-3xl mx-auto">
               <div className="flex justify-between text-4xl mb-6 mt-6 ">
                 {actualTimer % 2 === 0 &&
