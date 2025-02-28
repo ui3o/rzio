@@ -1,6 +1,7 @@
 import React from "react";
 import { Workout } from "../interfaces/workout";
 import { Timer } from "../interfaces/timer";
+import { BsFilterRight } from "react-icons/bs";
 
 interface Props {
     allRound?: number
@@ -77,6 +78,7 @@ export default class Card extends React.Component<Props, State> {
     }
 
     createWorkOutList(): JSX.Element {
+        // todo timer utan a kor azonosito pl. [2/4]
         if (this.props.workout) {
             const workoutList: Array<JSX.Element> = []
             for (let index = 0; index < this.props.workout.length; index++) {
@@ -96,7 +98,11 @@ export default class Card extends React.Component<Props, State> {
                                     <div className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-2">
                                         {durState &&
                                             <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-red-500" : "bg-orange-400"}`}>
-                                                <div className="mt-px">{this.calculateTimer(this.props.workout[index].dur)}</div>
+                                                <div className="mt-px">{this.calculateTimer(this.props.workout[index].dur)}
+                                                    <BsFilterRight className="inline mr-2 ml-2" />
+                                                    <span>{index + 1}</span>
+                                                    <span className="text-2xl">/{this.props.workout.length}</span>
+                                                </div>
                                             </div>
                                         }
                                         <div className={`center gow max-sm:w-full select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-500`}>
