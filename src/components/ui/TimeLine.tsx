@@ -100,11 +100,11 @@ export default class TimeLine extends React.Component<Props, State> {
                 onDoubleClick={this.onDoubleClickEvent.bind(this)}
                 className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-6 mt-6 cursor-pointer">
                 {actualTimer % 2 === 0 &&
-                  <div className={`center grow select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500`}>
+                  <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500`}>
                     <div className="mt-px">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
                   </div>
                 }
-                <div className={`center gow-1 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${actualTimer % 2 !== 0 ? "bg-green-700" : "bg-green-500"}`}>
+                <div className={`center gow max-sm:w-full select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${actualTimer % 2 !== 0 ? "bg-green-700" : "bg-green-500"}`}>
                   <div className="mt-px">{this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}</div>
                 </div>
               </div>

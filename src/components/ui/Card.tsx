@@ -35,10 +35,10 @@ export default class Card extends React.Component<Props, State> {
                 (<>
                     <li className="py-3 sm:py-4">
                         <div className="flex flex-wrap gap-y-1 gap-x-1 items-baseline justify-between ">
-                            <div className="align-baseline leading-none mr-2 font-bold">
+                            <div className="align-baseline grow-2 leading-none font-bold">
                                 {w.name}
                             </div>
-                            <div className="flex">
+                            <div className="flex gow max-sm:w-full">
                                 <div className=" w-20 text-center select-none whitespace-nowrap rounded-lg bg-black py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ">
                                     <span className="">{w.count}</span>
                                 </div>
@@ -95,11 +95,11 @@ export default class Card extends React.Component<Props, State> {
                                     }
                                     <div className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-2">
                                         {durState &&
-                                            <div className={`center grow select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-red-500" : "bg-orange-400"}`}>
+                                            <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-red-500" : "bg-orange-400"}`}>
                                                 <div className="mt-px">{this.calculateTimer(this.props.workout[index].dur)}</div>
                                             </div>
                                         }
-                                        <div className={`center select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-500`}>
+                                        <div className={`center gow max-sm:w-full select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-500`}>
                                             <div className="mt-px">{this.calculateTimer(this.props.workout[index].rest)}</div>
                                         </div>
                                     </div>
