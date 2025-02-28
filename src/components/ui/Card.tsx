@@ -89,7 +89,7 @@ export default class Card extends React.Component<Props, State> {
                             <li className={`py-3 sm:py-4  ${this.calculateGoReadyState(durNumber) ? "bg-lime-200" : "bg-amber-50"}`}>
                                 <div className=" font-normal">
                                     {durState &&
-                                        <ul role="list" className="ml-9 text-3xl">
+                                        <ul role="list" className="ml-2 text-3xl">
                                             {this.createExerciseList(this.props.workout[index])}
                                         </ul>
                                     }
