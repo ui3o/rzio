@@ -6,13 +6,12 @@ import { Timer } from './components/interfaces/timer'
 import React from 'react'
 
 let keyboardEventTimestamp = 0;
-let DEMO_WORKOUT = `Húzódzkodás	0.10	0.05	12		13		14		15	
-Kalapács bicepsz	1.10	0.05	12	8	13	8	14	10	15	10
-Scott pad bicepsz			12	12	13	12	14	12	15	12
-Fekvőtámasz	0.10	0.05	12		13		14		15	`;
+let DEMO_WORKOUT = `Demo1	0.10	0.05	12		13
+Demo2.1	1.10	0.05	12	8	13	8
+Demo2.2			12	12	13	12
+Demo3	0.10	0.05	12		13`;
 
 interface Props {
-    workout?: Array<Array<Workout>>
 }
 
 interface State {
@@ -40,57 +39,17 @@ export default class App extends React.Component<Props, State> {
         console.log("App constructor")
         const keyListener = (event: KeyboardEvent) => {
 
-            if (event.key === "p" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
-                keyboardEventTimestamp = event.timeStamp | 0;
-                (document.getElementsByClassName("my_audio")[0] as any).play();
-
-            }
-            else if (event.key === "Enter" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
-                keyboardEventTimestamp = event.timeStamp | 0;
-                (document.getElementsByClassName("my_audio")[0] as any).play();
-
-                const curPos = this.state.timer.curPos + 1;
-                const workoutIsActiveMap = this.state.timer.workoutIsActiveMap;
-
-                console.log("call next run", curPos, this.state.timer.workoutTimeMap[curPos])
-                workoutIsActiveMap[this.state.timer.curPos] = false;
-
-                this.setState({
-                    timer: {
-                        started: true,
-                        curPos: curPos,
-                        curTime: 0,
-                        workoutIsActiveMap: workoutIsActiveMap,
-                        workoutTimeMap: this.state.timer.workoutTimeMap,
-                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
-                    }, workout: this.state.workout
-                })
-
+            // maradhat igy, mindketton click a nex vagy start, dupla a restart, a long click load from clipboard, az enter start vagy next, backspace nem kell
+            if (event.key === "Enter" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
+                this.startWorkoutOrNext();
             }
             else if (event.key === "Escape" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
                 keyboardEventTimestamp = event.timeStamp | 0;
-                this.setState({
-                    timer: {
-                        started: false,
-                        curPos: 0,
-                        curTime: 0,
-                        workoutIsActiveMap: new Array(this.state.timer.workoutTimeMap.length).fill(true),
-                        workoutTimeMap: this.state.timer.workoutTimeMap,
-                        workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
-                    }, workout: this.state.workout
-                })
-                console.log("set stop", this.state.timer.started)
-            }
-            else if (event.key === "Backspace" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
-                keyboardEventTimestamp = event.timeStamp | 0;
-                this.startWorkout();
+                this.restartWorkout();
             }
             if (event.key === "v" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
                 keyboardEventTimestamp = event.timeStamp | 0;
-                navigator.clipboard
-                    .readText()
-                    .then((clipText) => this.loadWorkout(clipText));
-
+                this.loadWorkoutFromClipboard();
             } else
                 event.preventDefault()
         }
@@ -111,8 +70,6 @@ export default class App extends React.Component<Props, State> {
                     console.log("time reached");
                     curPos++;
                     (document.getElementsByClassName("my_audio")[0] as any).play();
-
-
                 }
 
                 this.setState({
@@ -138,6 +95,21 @@ export default class App extends React.Component<Props, State> {
         }, 1000);
     }
 
+    restartWorkout() {
+        this.setState({
+            timer: {
+                started: false,
+                curPos: 0,
+                curTime: 0,
+                workoutIsActiveMap: new Array(this.state.timer.workoutTimeMap.length).fill(true),
+                workoutTimeMap: this.state.timer.workoutTimeMap,
+                workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
+            }, workout: this.state.workout
+        })
+        console.log("set stop", this.state.timer.started)
+
+    }
+
     startWorkout() {
         this.setState({
             timer: {
@@ -153,6 +125,37 @@ export default class App extends React.Component<Props, State> {
 
     }
 
+    startWorkoutOrNext() {
+        (document.getElementsByClassName("my_audio")[0] as any).play();
+        if (!this.state.timer.started)
+            this.startWorkout();
+        else {
+            const curPos = this.state.timer.curPos + 1;
+            const workoutIsActiveMap = this.state.timer.workoutIsActiveMap;
+
+            console.log("call next run", curPos, this.state.timer.workoutTimeMap[curPos])
+            workoutIsActiveMap[this.state.timer.curPos] = false;
+
+            this.setState({
+                timer: {
+                    started: true,
+                    curPos: curPos,
+                    curTime: 0,
+                    workoutIsActiveMap: workoutIsActiveMap,
+                    workoutTimeMap: this.state.timer.workoutTimeMap,
+                    workoutTimeRawMap: this.state.timer.workoutTimeRawMap,
+                }, workout: this.state.workout
+            })
+        }
+    }
+
+    loadWorkoutFromClipboard() {
+        navigator.clipboard
+            .readText()
+            .then((clipText) =>
+                this.loadWorkout(clipText)
+            );
+    }
 
     loadWorkout(clipText: string) {
         const workout: Array<Array<Workout>> = []
@@ -197,11 +200,21 @@ export default class App extends React.Component<Props, State> {
 
     }
 
+    changeStateClick(type: "single" | "double") {
+        if (type === "single") {
+            this.startWorkoutOrNext();
+            console.log("=== single click")
+        } else {
+            this.restartWorkout();
+            console.log("=== double click")
+        }
+    }
+
     public render(): JSX.Element {
 
         return (
             <>
-                <TimeLine timer={this.state.timer} workout={this.state.workout}></TimeLine>
+                <TimeLine changeStateClick={this.changeStateClick.bind(this)} onClick={this.loadWorkoutFromClipboard.bind(this)} timer={this.state.timer} workout={this.state.workout}></TimeLine>
                 <Gong />
             </>
         )

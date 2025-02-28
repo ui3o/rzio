@@ -2,8 +2,11 @@ import React from "react";
 import { Workout } from "../interfaces/workout";
 import TimeLineItem from "./TimeLineItem";
 import { Timer } from "../interfaces/timer";
+import ClipboardLoader from "./ClipboardLoader";
 
 interface Props {
+  onClick: () => void
+  changeStateClick: (type: "single" | "double") => void
   workout?: Array<Array<Workout>>
   timer: Timer;
 
@@ -18,6 +21,8 @@ const initialState: State = {
 };
 
 export default class TimeLine extends React.Component<Props, State> {
+
+  private clickWaitTimer: Array<number | undefined> = [];
 
   constructor(props: Props) {
     super(props);
@@ -67,6 +72,21 @@ export default class TimeLine extends React.Component<Props, State> {
     return `0`
   }
 
+  onClickEvent() {
+    this.clickWaitTimer.push(setTimeout(() => {
+      this.props.changeStateClick("single");
+    }, 200));
+  }
+  onDoubleClickEvent() {
+    const len = this.clickWaitTimer.length;
+    for (let i = 0; i < len; i++) {
+      clearInterval(this.clickWaitTimer.pop());
+    }
+    this.props.changeStateClick("double");
+  }
+
+
+
   public render(): JSX.Element {
     const actualTimer = this.calculateActualTimer()
 
@@ -75,7 +95,10 @@ export default class TimeLine extends React.Component<Props, State> {
         <section className=" in-h-screen flex flex-col justify-center bg-slate-50">
           <div className="flex flex-col justify-center sticky top-0 z-10 bg-slate-50">
             <div className="w-full max-w-3xl mx-auto">
-              <div className="flex justify-between text-4xl mb-6 mt-6 ">
+              <div
+                onClick={this.onClickEvent.bind(this)}
+                onDoubleClick={this.onDoubleClickEvent.bind(this)}
+                className="flex justify-between text-4xl mb-6 mt-6 cursor-pointer">
                 {actualTimer % 2 === 0 &&
                   <div className={`center min-w-9/12 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500 mr-2`}>
                     <div className="mt-px">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
@@ -96,6 +119,7 @@ export default class TimeLine extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          <ClipboardLoader onClick={this.props.onClick}></ClipboardLoader>
         </section>
       </>
     )
