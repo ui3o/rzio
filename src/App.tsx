@@ -6,6 +6,7 @@ import { Timer } from './components/interfaces/timer'
 import React from 'react'
 
 let keyboardEventTimestamp = 0;
+let WORKOUT_KEY = "WORKOUT";
 let DEMO_WORKOUT = `Demo1	0.10	0.05	12		13
 Demo2.1	1.10	0.05	12	8	13	8
 Demo2.2			12	12	13	12
@@ -87,7 +88,9 @@ export default class App extends React.Component<Props, State> {
         }, 1000)
         document.getElementsByTagName("body")[0].addEventListener('keyup', keyListener);
         setTimeout(() => {
-            this.loadWorkout(DEMO_WORKOUT);
+            const localWorkout = localStorage.getItem(WORKOUT_KEY);
+            const wo = localWorkout ? localWorkout : DEMO_WORKOUT;
+            this.loadWorkout(wo);
             setTimeout(() => {
                 this.startWorkout();
             });
@@ -152,9 +155,11 @@ export default class App extends React.Component<Props, State> {
     loadWorkoutFromClipboard() {
         navigator.clipboard
             .readText()
-            .then((clipText) =>
-                this.loadWorkout(clipText)
-            );
+            .then((clipText) => {
+                const wo = clipText.includes('\n') ? clipText : DEMO_WORKOUT;
+                localStorage.setItem(WORKOUT_KEY, wo);
+                this.loadWorkout(wo);
+            });
     }
 
     loadWorkout(clipText: string) {
@@ -211,7 +216,6 @@ export default class App extends React.Component<Props, State> {
     }
 
     public render(): JSX.Element {
-
         return (
             <>
                 <TimeLine changeStateClick={this.changeStateClick.bind(this)} onClick={this.loadWorkoutFromClipboard.bind(this)} timer={this.state.timer} workout={this.state.workout}></TimeLine>
