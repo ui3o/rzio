@@ -39,7 +39,7 @@ export default class Card extends React.Component<Props, State> {
                             <div className="align-baseline grow-2 leading-none font-bold">
                                 {w.name}
                             </div>
-                            <div className="flex gow max-sm:w-full">
+                            <div className="flex gow max-sm:w-full max-sm:justify-end">
                                 <div className=" w-20 text-center select-none whitespace-nowrap rounded-lg bg-black py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ">
                                     <span className="">{w.count}</span>
                                 </div>
