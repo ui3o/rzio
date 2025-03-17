@@ -35,7 +35,7 @@ export default class Card extends React.Component<Props, State> {
             ex.push(
                 (<>
                     <li className="py-3 sm:py-4">
-                        <div className="flex flex-wrap gap-y-1 gap-x-1 items-baseline justify-between ">
+                        <div className="flex flex-wrap gap-y-1 gap-x-1 items-baseline justify-end  ">
                             <div className="align-baseline grow-2 leading-none font-bold">
                                 {w.name}
                             </div>
