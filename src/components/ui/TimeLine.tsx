@@ -92,8 +92,8 @@ export default class TimeLine extends React.Component<Props, State> {
 
     return (
       <>
-        <section className=" in-h-screen flex flex-col justify-center bg-slate-50">
-          <div className="flex flex-col justify-center sticky top-0 z-10 bg-slate-50">
+        <section className={`in-h-screen flex flex-col justify-center ${actualTimer % 2 === 0 ? "bg-gradient-to-br via-sky-500 from-rose-500 to-indigo-200" : "bg-slate-50"}`}>
+          <div className="flex flex-col justify-center sticky top-0 z-10 backdrop-blur h-[6rem] max-sm:h-[10rem]">
             <div className="w-full max-w-3xl mx-auto">
               <div
                 onClick={this.onClickEvent.bind(this)}
@@ -101,25 +101,25 @@ export default class TimeLine extends React.Component<Props, State> {
                 className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-6 mt-6 cursor-pointer">
                 {actualTimer % 2 === 0 &&
                   <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500`}>
-                    <div className="mt-px">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
+                    <div className="">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
                   </div>
                 }
                 <div className={`center gow max-sm:w-full ${actualTimer % 2 !== 0 ? "w-full" : ""} select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${actualTimer % 2 !== 0 ? "bg-green-700" : "bg-green-500"}`}>
-                  <div className="mt-px">{this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}</div>
+                  <div className="">{this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-10">
-            <div className="flex flex-col justify-center divide-y divide-slate-200">
+          <div className="w-full mx-auto px-4 md:px-6 py-10 snap-y overflow-y-scroll no-scrollbar max-h-[calc(100vh-6rem)] max-sm:max-h-[calc(100vh-10rem)]">
+            <div className="flex flex-col justify-center divide-y divide-slate-200 scroll-mb-6">
               <div className="w-full max-w-3xl mx-auto">
                 <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                   {this.createTimeLine()}
                 </div>
               </div>
             </div>
+            <ClipboardLoader onClick={this.props.onClick}></ClipboardLoader>
           </div>
-          <ClipboardLoader onClick={this.props.onClick}></ClipboardLoader>
         </section>
       </>
     )

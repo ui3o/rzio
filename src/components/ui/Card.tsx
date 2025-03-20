@@ -98,7 +98,7 @@ export default class Card extends React.Component<Props, State> {
                                     <div className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-2">
                                         {durState &&
                                             <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${this.currentActiveItem === durNumber ? "bg-red-500" : "bg-orange-400"}`}>
-                                                <div className="mt-px">{this.calculateTimer(this.props.workout[index].dur)}
+                                                <div className="">{this.calculateTimer(this.props.workout[index].dur)}
                                                     <BsFilterRight className="inline mr-2 ml-2" />
                                                     <span>{index + 1}</span>
                                                     <span className="text-2xl">/{this.props.workout.length}</span>
@@ -106,7 +106,7 @@ export default class Card extends React.Component<Props, State> {
                                             </div>
                                         }
                                         <div className={`center gow max-sm:w-full select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-500`}>
-                                            <div className="mt-px">{this.calculateTimer(this.props.workout[index].rest)}</div>
+                                            <div className="">{this.calculateTimer(this.props.workout[index].rest)}</div>
                                         </div>
                                     </div>
 
