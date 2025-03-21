@@ -89,6 +89,8 @@ export default class TimeLine extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     const actualTimer = this.calculateActualTimer()
+    const timePercent = Math.trunc((this.props.timer.curTime / this.props.timer.workoutTimeMap[actualTimer]) * 100)
+    console.log(timePercent, this.props.timer.curTime)
 
     return (
       <>
@@ -100,13 +102,22 @@ export default class TimeLine extends React.Component<Props, State> {
                 onDoubleClick={this.onDoubleClickEvent.bind(this)}
                 className="flex flex-wrap gap-y-1 gap-x-1 justify-between text-4xl mb-6 mt-6 cursor-pointer">
                 {actualTimer % 2 === 0 &&
-                  <div className={`center grow-2 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-500`}>
-                    <div className="">{this.calculateTimer(actualTimer % 2 === 0, actualTimer)}</div>
+
+
+                  <div className={`center grow-4 select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-red-400 pl-0 pt-0 pb-0 pr-0 content-center`}>
+                    <div className={`rounded-lg align-baseline py-[0.1rem] px-3.5  bg-red-600 content-center h-full`} style={{ width: `${timePercent + "%"}` }}>
+                      {this.calculateTimer(actualTimer % 2 === 0, actualTimer)}
+                    </div>
                   </div>
                 }
-                <div className={`center gow max-sm:w-full ${actualTimer % 2 !== 0 ? "w-full" : ""} select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white ${actualTimer % 2 !== 0 ? "bg-green-700" : "bg-green-500"}`}>
-                  <div className="">{this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}</div>
+
+                <div className={`center grow max-sm:w-full ${actualTimer % 2 !== 0 ? "w-full" : ""} select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline font-sans  font-bold uppercase leading-none text-white bg-green-400 pl-0 pt-0 pb-0 pr-0 content-center`}>
+                  <div className={`rounded-lg align-baseline py-[0.1rem] px-3.5  bg-green-600 content-center h-full`} style={{ width: `${actualTimer % 2 !== 0 ? timePercent + "%" : "100%"}` }}>
+                    {this.calculateTimer(actualTimer % 2 !== 0, actualTimer % 2 !== 0 ? actualTimer : actualTimer + 1)}
+                  </div>
                 </div>
+
+
               </div>
             </div>
           </div>
