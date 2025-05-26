@@ -95,6 +95,7 @@ export default class App extends React.Component<Props, State> {
             if (urlWorkout) {
                 console.log("urlWorkout update from wo")
                 localStorage.setItem(WORKOUT_KEY, wo);
+                window.location.href = document.location.origin + document.location.pathname;
             }
             this.loadWorkout(wo);
             setTimeout(() => {
