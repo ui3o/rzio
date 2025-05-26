@@ -89,7 +89,13 @@ export default class App extends React.Component<Props, State> {
         document.getElementsByTagName("body")[0].addEventListener('keyup', keyListener);
         setTimeout(() => {
             const localWorkout = localStorage.getItem(WORKOUT_KEY);
-            const wo = localWorkout ? localWorkout : DEMO_WORKOUT;
+            let params = new URLSearchParams(document.location.search);
+            let urlWorkout = params.get("wo");
+            const wo = urlWorkout ? urlWorkout : localWorkout ? localWorkout : DEMO_WORKOUT;
+            if (urlWorkout) {
+                console.log("urlWorkout update from wo")
+                localStorage.setItem(WORKOUT_KEY, wo);
+            }
             this.loadWorkout(wo);
             setTimeout(() => {
                 this.startWorkout();
@@ -164,8 +170,9 @@ export default class App extends React.Component<Props, State> {
 
     loadWorkout(clipText: string) {
         const workout: Array<Array<Workout>> = []
-        clipText.split("\n").forEach(l => {
-            const r = l.split('\t')
+        const lines = clipText.includes("#") ? clipText.split("#") : clipText.split("\n");
+        lines.forEach(l => {
+            const r = l.includes(";") ? l.split(';') : l.split('\t')
             for (let index = 0, i = 3; index < (r.length - 3) / 2; index++, i += 2) {
                 workout[index] = workout[index] === undefined ? [] : workout[index];
                 if (!r[1]) {
