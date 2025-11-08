@@ -41,7 +41,7 @@ export default class App extends React.Component<Props, State> {
         const keyListener = (event: KeyboardEvent) => {
 
             // maradhat igy, mindketton click a nex vagy start, dupla a restart, a long click load from clipboard, az enter start vagy next, backspace nem kell
-            if (event.key === "Enter" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
+            if ((event.key === " " || event.key === "Enter") && (event.timeStamp | 0) !== keyboardEventTimestamp) {
                 this.startWorkoutOrNext();
             }
             else if (event.key === "Escape" && (event.timeStamp | 0) !== keyboardEventTimestamp) {
