@@ -31,8 +31,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-  <script>eruda.init();eruda.showss();</script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();eruda.showss();</script>-->
 
   <script>
   
@@ -72,7 +72,10 @@
 
     const swiper = new Swiper('.mySwiper', {
       loop: true,
-      zoom: { maxRatio: 3 },
+      zoom: { 
+        maxRatio: 3,
+        minRatio: 1,
+      },
       autoplay: {
         delay: 4000,
         disableOnInteraction: false,
