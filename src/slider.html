@@ -1,29 +1,63 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Interaktív Fénykép Album</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
-    html, body { position: relative; height: 100%; margin: 0; padding: 0; background: #000; overflow: hidden; }
-    .swiper { width: 100%; height: 100%; }
-    .swiper-slide { display: flex; justify-content: center; align-items: center; overflow: hidden; }
-    .swiper-slide img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    html,
+    body {
+      position: relative;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .swiper-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
     #fullscreen-btn {
-      position: absolute; top: 15px; right: 15px; z-index: 100;
-      background: rgba(0, 0, 0, 0.5); color: white; border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 10px 15px; border-radius: 8px; font-size: 14px; cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
     }
   </style>
 </head>
+
 <body>
 
   <button id="fullscreen-btn" onclick="toggleFullScreen()">Teljes képernyő</button>
   <input type="file" id="kepValaszo" accept="image/*" webkitdirectory directory multiple>
   <!--<image id="megjelenoKep" src="" alt="A kiválasztott kép helye" style="max-width:100%;">-->
 
-  
+
   <div class="swiper mySwiper">
     <div class="swiper-wrapper" id="swiper-wrapper">
       <!-- A JS kód ide szúrja be a képeket -->
@@ -35,100 +69,115 @@
   <script>eruda.init();eruda.showss();</script>-->
 
   <script>
-  
+
     // 1. Megadjuk a helyi képek fájlneveit
     const imageFiles = [
       //'kep1.jpg',
       //'kep2.jpg',
       // Ide írd be a többi képed nevét
     ];
-    document.getElementById('kepValaszo').addEventListener('change', function(event) {
+    document.getElementById('kepValaszo').addEventListener('change', function (event) {
       document.getElementById('kepValaszo').style.display = 'none';
-        console.log(event.target.files)
-      Array.from(event.target.files).forEach(file => {
-    const fajl = file;
-    if (fajl) {
-        const ideiglenesUrl = URL.createObjectURL(fajl);
-        imageFiles.push(ideiglenesUrl)
-        console.log(ideiglenesUrl)
-    }
-        
+      console.log(event.target.files)
+      const files = Array.from(event.target.files).sort((a, b) => {
+        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
       })
-        //document.getElementById('megjelenoKep').src = ideiglenesUrl;
-    // 2. Dinamikusan felépítjük a Swiper diakat
-    const wrapper = document.getElementById('swiper-wrapper');
-    imageFiles.forEach(file => {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      slide.innerHTML = `<div class="swiper-zoom-container"><img src="${file}" /></div>`;
-      console.log(slide);
-           
-      wrapper.appendChild(slide);
+      console.log(files)
+      files.forEach(file => {
+        const fajl = file;
+        if (fajl) {
+          const ideiglenesUrl = URL.createObjectURL(fajl);
+          imageFiles.push(ideiglenesUrl)
+          console.log(ideiglenesUrl)
+        }
+
+      })
+      //document.getElementById('megjelenoKep').src = ideiglenesUrl;
+      // 2. Dinamikusan felépítjük a Swiper diakat
+      const wrapper = document.getElementById('swiper-wrapper');
+      imageFiles.forEach(file => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `<div class="swiper-zoom-container"><img src="${file}" /></div>`;
+        console.log(slide);
+
+        wrapper.appendChild(slide);
+      });
+
+      // 3. Swiper inicializálása
+      const INACTIVITY_TIME = 10000; // 10 mp inaktivitás
+      let inactivityTimer = null;
+
+      const swiper = new Swiper('.mySwiper', {
+        loop: true,
+        zoom: {
+          maxRatio: 3,
+          minRatio: 1,
+        },
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+      });
+
+      function resetInactivityTimer() {
+        swiper.autoplay.stop();
+        clearTimeout(inactivityTimer);
+
+        inactivityTimer = setTimeout(() => {
+          swiper.zoom.out();
+          swiper.autoplay.start();
+        }, INACTIVITY_TIME);
+      }
+
+      swiper.on('touchStart', resetInactivityTimer);
+      swiper.on('zoomChange', resetInactivityTimer);
+      swiper.on('slideChange', resetInactivityTimer);
+
+
+
     });
-
-    // 3. Swiper inicializálása
-    const INACTIVITY_TIME = 10000; // 10 mp inaktivitás
-    let inactivityTimer = null;
-
-    const swiper = new Swiper('.mySwiper', {
-      loop: true,
-      zoom: { 
-        maxRatio: 3,
-        minRatio: 1,
-      },
-      autoplay: {
-        delay: 4000,
-        disableOnInteraction: false,
-      },
-    });
-
-    function resetInactivityTimer() {
-      swiper.autoplay.stop();
-      clearTimeout(inactivityTimer);
-
-      inactivityTimer = setTimeout(() => {
-        swiper.zoom.out();
-        swiper.autoplay.start();
-      }, INACTIVITY_TIME);
-    }
-
-    swiper.on('touchStart', resetInactivityTimer);
-    swiper.on('zoomChange', resetInactivityTimer);
-    swiper.on('slideChange', resetInactivityTimer);
-      
-      
-    
-});
 
     function toggleFullScreen() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
         document.getElementById('fullscreen-btn').style.display = 'none';
       }
-      
-      
+
+
     }
-  
-  let wakeLock = null;
 
-async function requestWakeLock() {
-  try {
-    wakeLock = await navigator.wakeLock.request('screen');
-    console.log('Wake Lock is active');
-  } catch (err) {
-    console.error(`${err.name}, ${err.message}`);
-  }
-}
+    let wakeLock = null;
 
-// Request the lock when the page loads
-requestWakeLock();
-// Re-request the lock if the user switches back to the tab
-document.addEventListener('visibilitychange', async () => {
-  if (wakeLock !== null && document.visibilityState === 'visible') {
+    async function requestWakeLock() {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock is active');
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+      }
+    }
+
+    // Request the lock when the page loads
     requestWakeLock();
-  }
-});
+    // Re-request the lock if the user switches back to the tab
+    document.addEventListener('visibilitychange', async () => {
+      if (wakeLock !== null && document.visibilityState === 'visible') {
+        requestWakeLock();
+      }
+    });
 
   </script>
 </body>
+
 </html>
